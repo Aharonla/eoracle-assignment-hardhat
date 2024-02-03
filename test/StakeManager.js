@@ -35,11 +35,46 @@ describe('StakeManager', function () {
             const [, user] = await ethers.getSigners();
             const amount = 100;
             const time = 3600;
-            // await stakeManager.connect(user).setConfiguration(amount, time);
             await expect(
                 stakeManager.connect(user).setConfiguration(amount, time)
             ).to.be.revertedWithCustomError(stakeManager, "NotAdmin")
             .withArgs(user.address);
         });
     });
-});
+
+    describe("register", function () {
+        it("should register a new staker", async function () {
+            const { stakeManager } = await setup();
+            const [, user] = await ethers.getSigners();
+            const amount = 100;
+            const time = 3600;
+            await stakeManager.setConfiguration(amount, time);
+            expect(
+                await stakeManager.connect(user).register({ value: amount})
+            ).to.emit(stakeManager, 'Register')
+            .withArgs(user.address, amount, time);
+        });
+
+        it("should revert if not enough value", async function () {
+            const { stakeManager } = await setup();
+            const [, user] = await ethers.getSigners();
+            const amount = 100;
+            const time = 3600;
+            await stakeManager.setConfiguration(amount, time);
+            await expect(
+                stakeManager.connect(user).register({ value: amount - 1})
+            ).to.be.revertedWithCustomError(stakeManager, "IncorrectAmountSent");
+        });
+
+        it("should revert if too much value", async function () {
+            const { stakeManager } = await setup();
+            const [, user] = await ethers.getSigners();
+            const amount = 100;
+            const time = 3600;
+            await stakeManager.setConfiguration(amount, time);
+            await expect(
+                stakeManager.connect(user).register({ value: amount + 1})
+            ).to.be.revertedWithCustomError(stakeManager, "IncorrectAmountSent");
+        });
+    });
+})
