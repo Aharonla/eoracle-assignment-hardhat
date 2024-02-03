@@ -10,6 +10,15 @@ describe('StakeManager', function () {
         return { stakeManager };
     }
 
+    describe("Upgrade", function () {
+        it("should upgrade", async function () {
+            let { stakeManager } = await setup();
+            const StakeManagerV2 = await ethers.getContractFactory('StakeManagerV2');
+            stakeManager = await upgrades.upgradeProxy(await stakeManager.getAddress(), StakeManagerV2);
+            expect(await stakeManager.setConfiguration(100, 3600)).to.emit(stakeManager, 'FakeEvent');
+        });
+    })
+
     describe('SetConfiguration', function () {
         it('should set correct configurations', async function () {
             const { stakeManager } = await setup();
