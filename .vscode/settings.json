@@ -1,0 +1,14 @@
+{
+  "prettier.singleQuote": false,
+  "solidity.compileUsingRemoteVersion": "v0.8.23+commit.f704f362",
+  "prettier.documentSelectors": ["**/*.sol"],
+  "solidity.formatter": "prettier",
+
+  "editor.defaultFormatter": "rvest.vs-code-prettier-eslint",
+  "editor.formatOnPaste": false,
+  "editor.formatOnType": false, 
+  "editor.formatOnSave": true,
+  "editor.formatOnSaveMode": "file", 
+  "files.autoSave": "onFocusChange", 
+  "vs-code-prettier-eslint.prettierLast": false,
+}
