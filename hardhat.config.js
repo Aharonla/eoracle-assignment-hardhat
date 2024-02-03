@@ -5,6 +5,13 @@ require("@openzeppelin/hardhat-upgrades")
 module.exports = {
   solidity: {
     version: "0.8.23",
+    settings: {
+      outputSelection: {
+        "*": {
+          "*": ["storageLayout"],
+        }
+      }
+    },
     optimizer: {
       enabled: true,
       runs: 800,

@@ -7,7 +7,7 @@ import { SafeCast } from "@openzeppelin/contracts/utils/math/SafeCast.sol";
 import { IStakeManager } from "./IStakeManager.sol";
 import { Roles } from "./Roles.sol";
 
-/// @custom:oz-upgrades-from src/StakeManager.sol:StakeManager
+/// @custom:oz-upgrades-from contracts/StakeManager.sol:StakeManager
 contract StakeManagerV2 is Initializable, IStakeManager, Roles, UUPSUpgradeable {
     /**
      * @dev Stores staker's info:
