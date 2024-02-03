@@ -2,6 +2,7 @@
   "name": "hardhat-project",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^4.0.0",
+    "@openzeppelin/hardhat-upgrades": "^3.0.2",
     "eslint": "^8.56.0",
     "hardhat": "^2.19.5",
     "hardhat-deploy": "^0.11.45",
@@ -14,5 +15,9 @@
     "compile": "hardhat compile",
     "test": "hardhat test",
     "lint": "eslint . && solhint 'contracts/**/*.sol'"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.1",
+    "@openzeppelin/contracts-upgradeable": "^5.0.1"
   }
 }
