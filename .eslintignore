@@ -18,3 +18,4 @@ types
 coverage.json
 package-lock.json
 pnpm-lock.yaml
+*.sol
