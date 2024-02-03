@@ -42,4 +42,5 @@ jobs:
             - name: Add test summary
               run: |
                 echo "## Test result" >> $GITHUB_STEP_SUMMARY
+                npx hardhat coverage >> $GITHUB_STEP_SUMMARY
                 echo "✅ Passed" >> $GITHUB_STEP_SUMMARY
