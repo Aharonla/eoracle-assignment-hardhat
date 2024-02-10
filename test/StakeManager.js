@@ -12,7 +12,7 @@ describe('StakeManager', function () {
 
     describe("Upgrade", function () {
         it("should upgrade", async function () {
-            let { stakeManager } = await setup();
+            let { stakeManager } = await loadFixture(setup);
             const StakeManagerV2 = await ethers.getContractFactory('StakeManagerV2');
             stakeManager = await upgrades.upgradeProxy(await stakeManager.getAddress(), StakeManagerV2);
             expect(await stakeManager.setConfiguration(100, 3600)).to.emit(stakeManager, 'FakeEvent');
@@ -21,7 +21,7 @@ describe('StakeManager', function () {
 
     describe('SetConfiguration', function () {
         it('should set correct configurations', async function () {
-            const { stakeManager } = await setup();
+            const { stakeManager } = await loadFixture(setup);
             const amount = 100;
             const time = 3600;
             expect(
@@ -44,7 +44,7 @@ describe('StakeManager', function () {
 
     describe("register", function () {
         it("should register a new staker", async function () {
-            const { stakeManager } = await setup();
+            const { stakeManager } = await loadFixture(setup);
             const [, user] = await ethers.getSigners();
             const amount = 100;
             const time = 3600;
@@ -56,7 +56,7 @@ describe('StakeManager', function () {
         });
 
         it("should revert if not enough value", async function () {
-            const { stakeManager } = await setup();
+            const { stakeManager } = await loadFixture(setup);
             const [, user] = await ethers.getSigners();
             const amount = 100;
             const time = 3600;
@@ -67,7 +67,7 @@ describe('StakeManager', function () {
         });
 
         it("should revert if too much value", async function () {
-            const { stakeManager } = await setup();
+            const { stakeManager } = await loadFixture(setup);
             const [, user] = await ethers.getSigners();
             const amount = 100;
             const time = 3600;
@@ -77,4 +77,16 @@ describe('StakeManager', function () {
             ).to.be.revertedWithCustomError(stakeManager, "IncorrectAmountSent");
         });
     });
+
+    describe("claimRole", function () {
+        it("should claim a role", async function () {
+            const { stakeManager } = await loadFixture(setup);
+            const [, user] = await ethers.getSigners();
+            const role = ethers.utils.id("STAKER_ROLE");
+            expect(
+                await stakeManager.connect(user).claimRole(role)
+            ).to.emit(stakeManager, 'RoleClaimed')
+            .withArgs(user.address, role);
+        });
+    })
 })
